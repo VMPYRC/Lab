@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="../assets/css/style.css" />
+	<link rel="icon" href="../assets/images/favicon.ico" />
+	<meta name="author" content="VMPYRC" />
+	<title>Pomodoro Timer</title>
+</head>
+
+<body>
+	<h1><a href="../index.html">VMPYRC'S LAB</a> - Pomodoro Timer</h1>
+	<hr />
+
+	<div class="status" id="status">Mode: None</div>
+	<div class="countdown" id="countdown">00:00</div>
+
+	<button onclick="startFocus()">Focus (25 min)</button>
+	<button onclick="startRest()">Rest (5 min)</button>
+
+	<div class="time-display">
+		<h2>Total Time</h2>
+		<p>Total: <span id="elapsed">00:00:00</span></p>
+		<p>Focus: <span id="focus">00:00:00</span></p>
+		<p>Rest: <span id="rest">00:00:00</span></p>
+	</div>
+</body>
+
+<script>
+	let mode = null;
+	let elapsedTime = 0;
+	let focusTime = 0;
+	let restTime = 0;
+	let interval = null;
+	let countdownTime = 0; // in seconds
+	const focusDuration = 25 * 60; // 25 minutes
+	const restDuration = 5 * 60;   // 5 minutes
+
+	function formatTime(seconds) {
+		const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+		const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+		const secs = String(seconds % 60).padStart(2, '0');
+		return `${hrs}:${mins}:${secs}`;
+	}
+
+	function formatCountdown(seconds) {
+		const mins = String(Math.floor(seconds / 60)).padStart(2, '0');
+		const secs = String(seconds % 60).padStart(2, '0');
+		return `${mins}:${secs}`;
+	}
+
+	function updateDisplay() {
+		document.getElementById('elapsed').textContent = formatTime(elapsedTime);
+		document.getElementById('focus').textContent = formatTime(focusTime);
+		document.getElementById('rest').textContent = formatTime(restTime);
+		document.getElementById('status').textContent = "Mode: " + (mode ? mode.charAt(0).toUpperCase() + mode.slice(1) : "None");
+		document.getElementById('countdown').textContent = formatCountdown(countdownTime);
+	}
+
+	function startTimer(selectedMode, duration) {
+		if (interval) clearInterval(interval);
+		mode = selectedMode;
+		countdownTime = duration;
+		updateDisplay();
+
+		interval = setInterval(() => {
+			elapsedTime++;
+			countdownTime--;
+			if (mode === 'focus') focusTime++;
+			else if (mode === 'rest') restTime++;
+			updateDisplay();
+
+			if (countdownTime <= 0) {
+				clearInterval(interval);
+				if (mode === 'focus') {
+					startRest(); // auto switch to rest
+				} else {
+					startFocus(); // auto switch to focus
+				}
+			}
+		}, 1000);
+	}
+
+	function startFocus() {
+		startTimer('focus', focusDuration);
+	}
+	function startRest() {
+		startTimer('rest', restDuration);
+	}
+
+	updateDisplay();
+</script>
+
+</html>
