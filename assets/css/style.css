@@ -63,6 +63,11 @@ button:hover {
   padding: 20px;
 }
 
+.countdown {
+  font-size: 2rem;
+  margin-top: 1rem;
+}
+
 hr {
   background-color: #ff0080;
   border: 0;
@@ -97,6 +102,11 @@ input {
   padding: 10px;
   position: fixed;
   width: 200px;
+}
+
+.status {
+  font-size: 2rem;
+  margin: 1rem 0;
 }
 
 table,
