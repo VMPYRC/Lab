@@ -1,0 +1,49 @@
+/* ==UserStyle==
+@name           Global
+@namespace      github.com/openstyles/stylus
+@version        25.08.06
+@description    Various changes for all sites
+@author         VMPYRC
+==/UserStyle== */
+@-moz-document url-prefix("https://")
+{
+  a,
+  a:link {
+    color: #9900ff !important;
+    text-decoration: underline !important;
+  }
+  a:visited,
+  a:active,
+  a:hover {
+    color: #ff0080 !important;
+    text-decoration: underline !important;
+  }
+  body.skin--responsive #p-cactions .new a {
+    color: #00dddd !important;
+  }
+  blockquote {
+    border: 1px solid #9900ff;
+    font-family: serif;
+    margin: 1em 1px;
+    padding: 0.5em 5px;
+  }
+  pre,
+  code,
+  tt {
+    border: 2px solid #ff0080;
+    border-radius: 5px;
+    padding: 1px;
+  }
+  .mw-highlight .lineno,
+  .mw-content-ltr.mw-highlight .linenos {
+    color: #ffffff;
+    background: #ff0080;
+  }
+  body.skin--responsive .mw-portlet > div,
+  body.skin--responsive .pBod {
+    border: 1px solid #ff0080;
+    font-family: serif;
+    margin: 0;
+    padding: 0;
+  }
+}
