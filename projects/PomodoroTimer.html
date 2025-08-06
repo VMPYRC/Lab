@@ -13,12 +13,11 @@
 <body>
 	<h1><a href="../index.html">VMPYRC'S LAB</a> - Pomodoro Timer</h1>
 	<hr />
+	<h2 id="status">Mode: None</h2>
+	<h2 id="countdown">00:00</h2>
 
-	<div class="status" id="status">Mode: None</div>
-	<div class="countdown" id="countdown">00:00</div>
-
-	<button onclick="startFocus()">Focus (25 min)</button>
-	<button onclick="startRest()">Rest (5 min)</button>
+	<button onclick="startFocus()">Focus<br>(25 min)</button>
+	<button onclick="startRest()">Rest<br>(5 min)</button>
 
 	<div class="time-display">
 		<h2>Total Time</h2>
@@ -34,9 +33,9 @@
 	let focusTime = 0;
 	let restTime = 0;
 	let interval = null;
-	let countdownTime = 0; // in seconds
-	const focusDuration = 25 * 60; // 25 minutes
-	const restDuration = 5 * 60;   // 5 minutes
+	let countdownTime = 0; // seconds
+	const focusDuration = 25 * 60; // 25 min
+	const restDuration = 5 * 60;   // 5 min
 
 	function formatTime(seconds) {
 		const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
@@ -72,13 +71,11 @@
 			else if (mode === 'rest') restTime++;
 			updateDisplay();
 
+			// auto switch modes
 			if (countdownTime <= 0) {
 				clearInterval(interval);
-				if (mode === 'focus') {
-					startRest(); // auto switch to rest
-				} else {
-					startFocus(); // auto switch to focus
-				}
+				if (mode === 'focus') startRest();
+				else startFocus();
 			}
 		}, 1000);
 	}
