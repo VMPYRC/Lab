@@ -1,14 +1,17 @@
 *,
 *::before,
-*::after {
+*::after,
+*::root {
+  background-color: #000000;
   box-sizing: border-box;
+  color: #ffffff;
   font-family: "Times New Roman", Times, serif;
 }
 
 a:focus,
 a:hover {
-  color: #00ffff;
-  outline: 2px solid #00ffff;
+  color: #00dddd;
+  outline: 2px solid #00dddd;
   text-decoration: underline;
 }
 
@@ -19,9 +22,11 @@ a:visited {
 }
 
 body {
-  background: #ffffff;
+  background-color: #000000;
+  color: #ffffff;
   height: 1vh;
   margin: 10px;
+  padding: 0;
 }
 
 button {
@@ -35,12 +40,11 @@ button {
 }
 
 button:hover {
-  background-color: #00ffff;
+  background-color: #00dddd;
 }
 
 .color-box {
-  background-color: #ffffff;
-  border: 1px solid #000000;
+  border: 1px solid #ffffff;
   height: 200px;
   margin-top: 20px;
   width: 200px;
@@ -76,7 +80,20 @@ hr {
   width: 70%;
 }
 
+html,
+html:root {
+  background-color: #000000;
+  color: #ffffff;
+  font-family: "Times New Roman", Times, serif;
+  margin: 10px;
+  overflow: auto;
+  padding: 0;
+}
+
 input {
+  background-color: #000000;
+  border: 1px solid #ffffff;
+  color: #ffffff;
   display: block;
   height: 50px;
   padding: 5px;
@@ -90,8 +107,7 @@ input {
 }
 
 .output pre {
-  background-color: #ffffff;
-  border: 1px solid #000000;
+  border: 1px solid #ffffff;
   padding: 10px;
 }
 
