@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Global
 @namespace      github.com/openstyles/stylus
-@version        25.08.06
+@version        25.08.09
 @description    Various changes for all sites
 @author         VMPYRC
 ==/UserStyle== */
@@ -9,7 +9,7 @@
 {
   a,
   a:link {
-    color: #9900ff !important;
+    color: #3399bb !important;
     text-decoration: underline !important;
   }
   a:visited,
