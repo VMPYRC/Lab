@@ -46,4 +46,7 @@
     margin: 0;
     padding: 0;
   }
+  element {
+    text-shadow: none;
+  }
 }
