@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="../assets/images/favicon.ico" />
+    <meta name="author" content="VMPYRC" />
+    <title>Character Count Calculator</title>
+  </head>
+
+  <body>
+    <h1><a href="../index.html">VMPYRC'S LAB</a> - Character Count Calculator</h1>
+    <hr />
+
+    <p>This counts the characters of a string.<br />Included: spaces, punctuation, numbers, and letters.</p>
+    <input type="text" id="str" />
+    <button id="button">Calculate</button>
+    <div id="output"></div>
+
+    <hr />
+  </body>
+
+  <script>
+    let button = document.getElementById("button");
+    button.addEventListener("click", function () {
+      let input = document.getElementById("str").value;
+      let count = input.length;
+      let outputDiv = document.getElementById("output");
+      outputDiv.innerHTML = `<h2>${count}</h2>`;
+    });
+  </script>
+</html>
