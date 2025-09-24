@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="../assets/images/favicon.ico" />
+    <meta name="author" content="VMPYRC" />
+    <title>Super Simple Clicker Game</title>
+  </head>
+
+  <body>
+    <h1><a href="../index.html">VMPYRC'S LAB</a> - Super Simple Clicker Game</h1>
+    <hr />
+
+    <button onclick="setScoreToZero(0)">Reset</button>
+    <p>Score: <span id="score">0</span></p>
+    <button onclick="minus10(10)">-10</button>
+    <button onclick="minus5(5)">-5</button>
+    <button onclick="minus1(1)">-1</button>
+    <button onclick="add1(1)">+1</button>
+    <button onclick="add5(5)">+5</button>
+    <button onclick="add10(10)">+10</button>
+
+    <hr />
+  </body>
+
+  <script>
+    var score = 0;
+
+    function add5(amount) {
+      score = score + amount;
+      document.getElementById("score").innerHTML = score;
+    }
+
+    function add10(amount) {
+      score = score + amount;
+      document.getElementById("score").innerHTML = score;
+    }
+
+    function add1(amount) {
+      score = score + amount;
+      document.getElementById("score").innerHTML = score;
+    }
+
+    function setScoreToZero(amount) {
+      score = 0;
+      document.getElementById("score").innerHTML = score;
+    }
+
+    function minus1(amount) {
+      score = score - amount;
+      document.getElementById("score").innerHTML = score;
+    }
+
+    function minus5(amount) {
+      score = score - amount;
+      document.getElementById("score").innerHTML = score;
+    }
+
+    function minus10(amount) {
+      score = score - amount;
+      document.getElementById("score").innerHTML = score;
+    }
+  </script>
+</html>
