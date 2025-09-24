@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="../assets/css/style.css" />
+    <link
+      rel="icon"
+      href="../assets/images/favicon.ico" />
+    <meta
+      name="author"
+      content="VMPYRC" />
+    <title>Timers</title>
+  </head>
+	<body>
+		<h1><a href="../index.html">VMPYRC'S LAB</a> - Timers</h1>
+		<hr />
+	
+		<div class="timer-container">
+			<section id="pomo-timer" class="timer-box">
+				<h1 id="pomo-status">Pomodoro - Mode: None</h1>
+				<h2 id="pomo-countdown">00:00</h2>
+	
+				<button data-timer="pomo" data-mode="focus">Focus<br>(25 min)</button>
+				<button data-timer="pomo" data-mode="rest">Rest<br>(5 min)</button>
+	
+				<div class="time-display">
+					<h3>Total Time</h3>
+					<p>Total: <span id="pomo-elapsed">00:00:00</span></p>
+					<p>Focus: <span id="pomo-focus">00:00:00</span></p>
+					<p>Rest: <span id="pomo-rest">00:00:00</span></p>
+				</div>
+			</section>
+	
+			<section id="desk-timer" class="timer-box">
+				<h1 id="desk-status">Standing Desk - Mode: None</h1>
+				<h2 id="desk-countdown">00:00</h2>
+	
+				<button data-timer="desk" data-mode="stand">Stand<br>(30 min)</button>
+				<button data-timer="desk" data-mode="sit">Sit<br>(30 min)</button>
+	
+				<div class="time-display">
+					<h3>Total Time</h3>
+					<p>Total: <span id="desk-elapsed">00:00:00</span></p>
+					<p>Stand: <span id="desk-stand">00:00:00</span></p>
+					<p>Sit: <span id="desk-sit">00:00:00</span></p>
+				</div>
+			</section>
+		</div>
+	
+		<script>
+			// Timer configs
+			const timerConfigs = {
+				desk: {
+					durations: { stand: 30 * 60, sit: 30 * 60 },
+					elements: {
+						elapsed: "desk-elapsed",
+						modes: { stand: "desk-stand", sit: "desk-sit" },
+						status: "desk-status",
+						countdown: "desk-countdown"
+					}
+				},
+				pomo: {
+					durations: { focus: 25 * 60, rest: 5 * 60 },
+					elements: {
+						elapsed: "pomo-elapsed",
+						modes: { focus: "pomo-focus", rest: "pomo-rest" },
+						status: "pomo-status",
+						countdown: "pomo-countdown"
+					}
+				}
+			};
+	
+			// State for each timer
+			const timers = {};
+			Object.keys(timerConfigs).forEach(key => {
+				timers[key] = {
+					mode: null,
+					times: { elapsed: 0, ...Object.fromEntries(Object.keys(timerConfigs[key].durations).map(m => [m, 0])) },
+					countdownTime: 0,
+					interval: null
+				};
+			});
+	
+			const fmt = (sec, full = true) => {
+				const h = String(Math.floor(sec / 3600)).padStart(2, "0");
+				const m = String(Math.floor((sec % 3600) / 60)).padStart(2, "0");
+				const s = String(sec % 60).padStart(2, "0");
+				return full ? `${h}:${m}:${s}` : `${m}:${s}`;
+			};
+	
+			function updateDisplay(timerName) {
+				const cfg = timerConfigs[timerName];
+				const t = timers[timerName];
+	
+				document.getElementById(cfg.elements.elapsed).textContent = fmt(t.times.elapsed);
+				Object.keys(cfg.durations).forEach(mode =>
+					document.getElementById(cfg.elements.modes[mode]).textContent = fmt(t.times[mode])
+				);
+				document.getElementById(cfg.elements.status).textContent =
+					`${timerName === "desk" ? "Standing Desk" : "Pomodoro"} - Mode: ${t.mode ? t.mode[0].toUpperCase() + t.mode.slice(1) : "None"}`;
+				document.getElementById(cfg.elements.countdown).textContent = fmt(t.countdownTime, false);
+			}
+	
+			function startTimer(timerName, newMode) {
+				const cfg = timerConfigs[timerName];
+				const t = timers[timerName];
+	
+				clearInterval(t.interval);
+				t.mode = newMode;
+				t.countdownTime = cfg.durations[newMode];
+				updateDisplay(timerName);
+	
+				t.interval = setInterval(() => {
+					t.times.elapsed++;
+					t.times[newMode]++;
+					t.countdownTime--;
+					updateDisplay(timerName);
+	
+					if (t.countdownTime <= 0) {
+						const modes = Object.keys(cfg.durations);
+						const nextMode = modes.find(m => m !== newMode);
+						startTimer(timerName, nextMode);
+					}
+				}, 1000);
+			}
+	
+			document.querySelectorAll("button[data-timer]").forEach(btn => {
+				btn.addEventListener("click", () => {
+					startTimer(btn.dataset.timer, btn.dataset.mode);
+				});
+			});
+	
+			Object.keys(timerConfigs).forEach(updateDisplay);
+		</script>
+	</body>
+	
+  </body>
+</html>
