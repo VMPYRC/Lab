@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="../assets/images/favicon.ico" />
+    <meta name="author" content="VMPYRC" />
+    <title>Venture</title>
+  </head>
+
+  <body>
+    <h1>
+      <a href="../index.html">VMPYRC'S LAB</a> - Venture - Idle Incremental Game
+      <i>(Incomplete project)</i>
+    </h1>
+    <hr />
+
+    <button onclick="resetProgress()">Reset Progress</button>
+
+    <div class="sidebar">
+      <h2>Notifications</h2>
+      <ul id="notificationList" style="list-style-type: none; padding: 0"></ul>
+    </div>
+
+    <div class="content">
+      <h2>Gather Resources</h2>
+      <button onclick="gatherResource('wood', 1)">Chop Wood</button>
+      <button onclick="gatherResource('stone', 1)">Mine Stone</button>
+
+      <h2>Automated Bonuses</h2>
+      <button onclick="buyAllTools()">Buy All Auto Tools</button>
+      <br />
+      <button onclick="buyTool('wood')">Auto Axe Cost: <span id="autoAxeCost">5</span> Wood</button>
+      + <span id="autoAxes">0</span> Wood/sec<br />
+      <button onclick="buyTool('stone')">Auto Pickaxe Cost: <span id="autoPickaxeCost">5</span> Stone</button>
+      + <span id="autoPickaxes">0</span> Stone/sec<br />
+
+      <h2>Inventory</h2>
+      <div>
+        Wood: <span id="wood">0</span><br />
+        Stone: <span id="stone">0</span><br />
+        Currency: <span id="currency">0</span><br />
+      </div>
+
+      <h2>Sell Resources</h2>
+      <div>
+        <i>1 Currency per Unit</i><br />
+        <div>
+          <input type="number" id="sellAmount" placeholder="Amount" />
+          <select id="resourceType">
+            <option value="wood">Wood</option>
+            <option value="stone">Stone</option>
+          </select>
+          <button onclick="sellResource()">Sell</button>
+        </div>
+        <button onclick="sellAllResources()">Sell All Resources</button>
+      </div>
+    </div>
+
+    <hr />
+  </body>
+
+  <script>
+    const resources = {
+      wood: 0,
+      stone: 0,
+      currency: 0,
+      autoAxes: 0,
+      autoPickaxes: 0,
+    };
+
+    const toolMapping = {
+      wood: {
+        toolProperty: "autoAxes",
+        costElemId: "autoAxeCost",
+        countElemId: "autoAxes",
+        baseCost: 5,
+      },
+      stone: {
+        toolProperty: "autoPickaxes",
+        costElemId: "autoPickaxeCost",
+        countElemId: "autoPickaxes",
+        baseCost: 5,
+      },
+    };
+
+    const manageProgress = (action) => {
+      Object.keys(resources).forEach((key) => {
+        action === "save" ? localStorage.setItem(key, resources[key]) : (resources[key] = parseInt(localStorage.getItem(key)) || 0);
+      });
+    };
+
+    const showNotification = (message) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = message;
+      document.getElementById("notificationList").prepend(listItem);
+    };
+
+    const updateDisplay = () => {
+      ["wood", "stone", "currency"].forEach((resource) => {
+        document.getElementById(resource).textContent = resources[resource].toLocaleString();
+      });
+      Object.keys(toolMapping).forEach((type) => {
+        const { toolProperty, costElemId, countElemId, baseCost } = toolMapping[type];
+        const toolCount = resources[toolProperty];
+        const cost = baseCost + toolCount * 5;
+        document.getElementById(countElemId).textContent = resources[toolProperty].toLocaleString();
+        document.getElementById(costElemId).textContent = cost.toLocaleString();
+      });
+    };
+
+    const sellResource = () => {
+      const amount = parseInt(document.getElementById("sellAmount").value, 10);
+      const resource = document.getElementById("resourceType").value;
+      if (resources[resource] >= amount) {
+        resources[resource] -= amount;
+        resources.currency += amount;
+        updateDisplay();
+        manageProgress("save");
+        showNotification(`Sold ${amount} ${resource}!`);
+      } else {
+        showNotification(`Not enough ${resource} to sell!`);
+      }
+    };
+
+    const gatherResource = (type, amount) => {
+      resources[type] += amount;
+      updateDisplay();
+      manageProgress("save");
+    };
+
+    const buyTool = (type) => {
+      const { toolProperty, baseCost } = toolMapping[type];
+      const toolCount = resources[toolProperty];
+      const cost = baseCost + toolCount * 5;
+      if (resources[type] >= cost) {
+        resources[toolProperty]++;
+        resources[type] -= cost;
+        updateDisplay();
+        manageProgress("save");
+      } else {
+        showNotification(`Not enough ${type} to buy tool!`);
+      }
+    };
+
+    const resetProgress = () => {
+      if (confirm("Are you sure you want to reset all progress? This action cannot be undone. There is no prestige.")) {
+        Object.keys(resources).forEach((key) => {
+          resources[key] = 0;
+        });
+        localStorage.clear();
+        updateDisplay();
+        showNotification("Progress has been reset!");
+      }
+    };
+
+    const buyAllTools = () => {
+      Object.keys(toolMapping).forEach((type) => {
+        const { toolProperty, baseCost } = toolMapping[type];
+        const toolCount = resources[toolProperty];
+        const cost = baseCost + toolCount * 5;
+        while (resources[type] >= cost) {
+          resources[toolProperty]++;
+          resources[type] -= cost;
+        }
+      });
+      updateDisplay();
+      manageProgress("save");
+      showNotification("Bought all possible auto tools!");
+    };
+
+    const sellAllResources = () => {
+      resources.currency += resources.wood + resources.stone;
+      resources.wood = 0;
+      resources.stone = 0;
+      updateDisplay();
+      manageProgress("save");
+      showNotification("Sold all resources for currency!");
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      manageProgress("load");
+      updateDisplay();
+      setInterval(() => {
+        gatherResource("wood", resources.autoAxes);
+        gatherResource("stone", resources.autoPickaxes);
+        manageProgress("save");
+        updateDisplay();
+      }, 1000);
+    });
+  </script>
+</html>
