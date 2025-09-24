@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="../assets/images/favicon.ico" />
+    <meta name="author" content="VMPYRC" />
+    <title>JavaScript</title>
+  </head>
+
+  <body>
+    <h1><a href="../index.html">VMPYRC'S LAB</a></h1>
+    <hr />
+
+    <h1>JavaScript</h1>
+    <ul>
+      <li>JavaScript makes HTML pages dynamic and interactive</li>
+      <li>
+        <a href="https://www.w3schools.com/js/default.asp">W3 Schools: JavaScript</a>
+      </li>
+    </ul>
+    <noscript>Sorry, your browser does not support JavaScript!</noscript>
+    <hr />
+
+    <h1>Buttons</h1>
+    <p>
+      Links to the
+      <button onclick="document.location='../index.html'">Lab</button>
+    </p>
+    <button type="button" onclick="document.getElementById('get-timedate').innerHTML = Date()">Display Date, Time, Time Zone</button>
+    <p id="get-timedate"></p>
+    <hr />
+
+    <h1>Change Text & Style</h1>
+
+    <p id="hello-world">Hello World!</p>
+    <p id="change-content">Sample Text!</p>
+    <p id="change-style">Style me!</p>
+
+    <button onclick="changeContent()">Change Content</button>
+    <button onclick="changeStyle()">Change Style</button>
+
+    <script>
+      function changeContent() {
+        document.getElementById("change-content").innerHTML = "Changed Text!";
+      }
+
+      function changeStyle() {
+        const el = document.getElementById("change-style");
+        el.style.fontSize = "20px";
+        el.style.color = "#FF0080";
+        el.style.backgroundColor = "#000000";
+      }
+    </script>
+    <hr />
+  </body>
+</html>
