@@ -2,53 +2,53 @@
 // @name         Kobo URL Cleaner
 // @namespace    Kobo URL Cleaner
 // @version      2025.10.03
-// @description  Cleans unwanted URL parameters from Kobo.com
+// @description  Cleans unwanted URL parameters from Kobo ebook/product links
 // @author       VMPYRC
-// @match        *://*.kobo.com/*
+// @match        https://www.kobo.com/us/en/*
 // @grant        none
 // ==/UserScript==
 
 (function () {
   "use strict";
 
-  // Parameters to remove
-  const paramsToRemove = ["ssId", "sId", "cPos"];
+  const paramsToRemove = ["sId", "ssId", "cPos"];
 
-  function cleanUrl(url) {
-    try {
-      let u = new URL(url);
-      let changed = false;
-
-      paramsToRemove.forEach((p) => {
-        if (u.searchParams.has(p)) {
-          u.searchParams.delete(p);
-          changed = true;
-        }
-      });
-
-      return changed ? u.toString() : null;
-    } catch {
-      return null;
+  // --- Clean current page URL ---
+  if (!window.location.pathname.startsWith("/us/en/search")) {
+    const url = new URL(window.location.href);
+    let changed = false;
+    paramsToRemove.forEach((param) => {
+      if (url.searchParams.has(param)) {
+        url.searchParams.delete(param);
+        changed = true;
+      }
+    });
+    if (changed) {
+      window.history.replaceState({}, document.title, url.toString());
     }
   }
 
-  // Clean current page URL
-  let newUrl = cleanUrl(window.location.href);
-  if (newUrl) {
-    window.history.replaceState({}, document.title, newUrl);
-  }
-
-  // Clean all links on the page
+  // --- Clean all Kobo ebook/product links on the page ---
   function cleanLinks() {
-    document.querySelectorAll("a[href]").forEach((link) => {
-      let newUrl = cleanUrl(link.href);
-      if (newUrl) link.href = newUrl;
+    document.querySelectorAll('a[href*="/us/en/ebook/"]').forEach((link) => {
+      const linkURL = new URL(link.href, window.location.origin);
+      let changed = false;
+      paramsToRemove.forEach((param) => {
+        if (linkURL.searchParams.has(param)) {
+          linkURL.searchParams.delete(param);
+          changed = true;
+        }
+      });
+      if (changed) {
+        link.href = linkURL.toString();
+      }
     });
   }
 
+  // Initial cleaning
   cleanLinks();
 
-  // Keep watching for dynamically added Kobo links
+  // Optional: observe dynamically added links (e.g., infinite scroll)
   const observer = new MutationObserver(cleanLinks);
   observer.observe(document.body, { childList: true, subtree: true });
 })();
