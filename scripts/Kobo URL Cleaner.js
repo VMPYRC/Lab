@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Kobo URL Cleaner
 // @namespace    Kobo URL Cleaner
-// @version      2025.10.03
-// @description  Cleans unwanted URL parameters from Kobo ebook/product links
+// @version      2025.10.04
+// @description  Cleans unwanted URL parameters from Kobo ebook and audiobook links
 // @author       VMPYRC
 // @match        https://www.kobo.com/us/en/*
 // @grant        none
@@ -28,9 +28,9 @@
     }
   }
 
-  // --- Clean all Kobo ebook/product links on the page ---
+  // --- Clean all Kobo ebook/audiobook links on the page ---
   function cleanLinks() {
-    document.querySelectorAll('a[href*="/us/en/ebook/"]').forEach((link) => {
+    document.querySelectorAll('a[href*="/us/en/ebook/"], a[href*="/us/en/audiobook/"]').forEach((link) => {
       const linkURL = new URL(link.href, window.location.origin);
       let changed = false;
       paramsToRemove.forEach((param) => {
