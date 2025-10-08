@@ -3,10 +3,29 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/global.css" />
     <link rel="icon" href="../assets/images/favicon.ico" />
     <meta name="author" content="VMPYRC" />
     <title>Venture</title>
+    <style>
+      .content {
+        flex-grow: 1;
+        margin-left: 220px;
+        padding: 20px;
+      }
+      #notification {
+        color: #ff0080;
+        margin-bottom: 10px;
+      }
+      .sidebar {
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        height: 100vh;
+        overflow-y: auto;
+        padding: 10px;
+        position: fixed;
+        width: 200px;
+      }
+    </style>
   </head>
 
   <body>
@@ -19,31 +38,33 @@
     <button onclick="resetProgress()">Reset Progress</button>
 
     <div class="sidebar">
-      <h2>Notifications</h2>
+      <p>Notifications</p>
       <ul id="notificationList" style="list-style-type: none; padding: 0"></ul>
     </div>
 
     <div class="content">
-      <h2>Gather Resources</h2>
+      <p>Gather Resources</p>
       <button onclick="gatherResource('wood', 1)">Chop Wood</button>
       <button onclick="gatherResource('stone', 1)">Mine Stone</button>
-
-      <h2>Automated Bonuses</h2>
+      <br /><br />
+      <p>Automated Bonuses</p>
       <button onclick="buyAllTools()">Buy All Auto Tools</button>
-      <br />
+      <br /><br />
       <button onclick="buyTool('wood')">Auto Axe Cost: <span id="autoAxeCost">5</span> Wood</button>
       + <span id="autoAxes">0</span> Wood/sec<br />
       <button onclick="buyTool('stone')">Auto Pickaxe Cost: <span id="autoPickaxeCost">5</span> Stone</button>
       + <span id="autoPickaxes">0</span> Stone/sec<br />
+      <br /><br />
 
-      <h2>Inventory</h2>
+      <p>Inventory</p>
       <div>
         Wood: <span id="wood">0</span><br />
         Stone: <span id="stone">0</span><br />
         Currency: <span id="currency">0</span><br />
       </div>
+      <br /><br />
 
-      <h2>Sell Resources</h2>
+      <p>Sell Resources</p>
       <div>
         <i>1 Currency per Unit</i><br />
         <div>

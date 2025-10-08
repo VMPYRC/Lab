@@ -8,25 +8,6 @@
     <meta name="author" content="VMPYRC" />
     <title>Color Tools</title>
     <style>
-      body {
-        margin: 0;
-        padding: 10px;
-      }
-      button {
-        background: #ff0080;
-        border-radius: 10px;
-        border: 1px solid #ffffff;
-        color: #ffffff;
-        cursor: pointer;
-        font-weight: 600;
-        padding: 5px;
-      }
-      button.ghost {
-        background: transparent;
-        border: 1px solid #ffffff;
-        color: #ffffff;
-        font-weight: 500;
-      }
       .card {
         background: #000000;
         border-radius: 10px;
@@ -140,6 +121,9 @@
         display: flex;
         flex-direction: column;
         gap: 5px;
+      }
+      .viewer + .viewer {
+        margin-left: -5px;
       }
       .wrap {
         margin: 0 auto;

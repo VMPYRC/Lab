@@ -1,22 +1,111 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap");
 
+html,
+html:root {
+  background-color: #000000;
+  color: #ffffff;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 20px;
+  margin: 10px;
+  overflow: auto;
+  padding: 0;
+}
 body {
   background: #000000;
   color: #ffffff;
   font-family: "JetBrains Mono", monospace;
+  margin: 20px;
+  padding: 0;
+  width: 80%;
 }
 
-a:focus,
+a,
+a:link {
+  color: #00ffff !important;
+  text-decoration: underline !important;
+  text-shadow: none !important;
+}
+a:visited,
+a:active {
+  color: #ff0080 !important;
+  text-decoration: underline !important;
+  text-shadow: none !important;
+}
 a:hover {
-  color: #00ffff;
-  outline: 2px solid #00ffff;
-  text-decoration: underline;
+  color: #9900ff !important;
+  text-decoration: underline !important;
 }
 
-a:link,
-a:visited {
-  color: #ff0080;
-  text-decoration: none;
+button {
+  background: #ff0080;
+  border-radius: 10px;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 5px;
+}
+/* Clear Button*/
+button.ghost {
+  background: transparent;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  line-height: 120%;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+h2 {
+  font-size: 2.25rem;
+}
+h3 {
+  font-size: 2rem;
+}
+h4 {
+  font-size: 1.75rem;
+}
+h5 {
+  font-size: 1.5rem;
+}
+h6 {
+  font-size: 1.25rem;
+}
+
+hr {
+  background-color: #ffffff;
+  border: 0;
+  height: 2px;
+  text-align: center;
+  width: 100%;
+}
+
+img {
+  border: 1px solid #ffffff;
+}
+
+p {
+  font-size: 1rem;
+}
+
+/* Highlight */
+mark {
+  background-color: #ff0080;
+  border-radius: 5px;
+  color: #ffffff;
+  padding: 0 0.2em;
 }
 
 table,
