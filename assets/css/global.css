@@ -44,6 +44,8 @@ button {
   cursor: pointer;
   font-weight: 600;
   padding: 5px;
+  font-size: 1em;
+  margin: 5px;
 }
 /* Clear Button*/
 button.ghost {
