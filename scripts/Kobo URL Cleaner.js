@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         Kobo URL Cleaner
-// @namespace    Kobo URL Cleaner
-// @version      2025.10.04
-// @description  Cleans unwanted URL parameters from Kobo ebook and audiobook links
+// @namespace    https://github.com/VMPYRC/Lab
 // @author       VMPYRC
+// @description  Cleans unwanted URL parameters from Kobo ebook and audiobook links
 // @match        https://www.kobo.com/us/en/*
 // @grant        none
+// @version      2025.10.04
 // ==/UserScript==
 
 (function () {
