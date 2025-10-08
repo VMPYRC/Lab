@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../assets/css/global.css" />
+    <link rel="icon" href="../assets/images/favicon.ico" />
+    <meta name="author" content="VMPYRC" />
+    <title>Image Gallery</title>
+    <style>
+      .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+      }
+      .gallery img {
+        border: 1px solid #ffffff;
+        cursor: pointer;
+        height: 100px;
+        object-fit: cover;
+      }
+      .gallery img:hover {
+        border-color: #ffffff;
+        transform: scale(1.05);
+      }
+      .lightbox {
+        align-items: center;
+        background: rgba(0, 0, 0, 0.8);
+        display: none;
+        flex-direction: column;
+        height: 100%;
+        justify-content: center;
+        left: 0;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+      }
+      .lightbox img {
+        border: 1px solid white;
+        max-height: 80%;
+        max-width: 90%;
+      }
+      .close {
+        color: white;
+        cursor: pointer;
+        font-size: 5em;
+        position: absolute;
+        text-align: center;
+        top: 5px;
+      }
+      .nav-btn {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        font-size: 5em;
+        padding: 10px 20px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        user-select: none;
+      }
+      .prev {
+        left: 20px;
+      }
+      .next {
+        right: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1><a href="../index.html">VMPYRC'S LAB</a> - Image Gallery</h1>
+    <hr />
+    <h1>Features</h1>
+    <p>
+      ⭐ View Enlarged Image<br />
+      ⭐ Previous / Next Image<br />
+      - Keyboard: Left, Right arrows<br />
+      - White buttons: < and ><br />
+      ⭐ Close Image<br />
+      - Keyboard: ESC (Escape)<br />
+      - White button: X<br />
+    </p>
+    <h1>Gallery</h1>
+    <div class="gallery">
+      <img src="../assets/images/lineHeart_1.png" alt="Image 1" data-large="../assets/images/lineHeart_1.png" />
+      <img src="../assets/images/lineRainy_1.png" alt="Image 2" data-large="../assets/images/lineRainy_1.png" />
+      <img src="../assets/images/lineShapes_1_500.png" alt="Image 3" data-large="../assets/images/lineShapes_1_500.png" />
+      <img src="../assets/images/lineSmiley_1.png" alt="Image 4" data-large="../assets/images/lineSmiley_1.png" />
+    </div>
+
+    <div class="lightbox" id="lightbox">
+      <span class="close">&times;</span>
+      <span class="nav-btn prev">&#10094;</span>
+      <img id="lightbox-img" src="" alt="" />
+      <span class="nav-btn next">&#10095;</span>
+    </div>
+    <hr />
+  </body>
+  <script>
+    const galleryImages = Array.from(document.querySelectorAll(".gallery img"));
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const closeBtn = document.querySelector(".lightbox .close");
+    const prevBtn = document.querySelector(".lightbox .prev");
+    const nextBtn = document.querySelector(".lightbox .next");
+
+    let currentIndex = 0;
+
+    function openLightbox(index) {
+      currentIndex = index;
+      lightboxImg.src = galleryImages[currentIndex].dataset.large;
+      lightboxImg.alt = galleryImages[currentIndex].alt;
+      lightbox.style.display = "flex";
+    }
+
+    function closeLightbox() {
+      lightbox.style.display = "none";
+      lightboxImg.src = "";
+    }
+
+    // Navigate images
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+      lightboxImg.src = galleryImages[currentIndex].dataset.large;
+      lightboxImg.alt = galleryImages[currentIndex].alt;
+    }
+
+    function showNext() {
+      currentIndex = (currentIndex + 1) % galleryImages.length;
+      lightboxImg.src = galleryImages[currentIndex].dataset.large;
+      lightboxImg.alt = galleryImages[currentIndex].alt;
+    }
+
+    // Open lightbox on thumbnail click
+    galleryImages.forEach((img, index) => {
+      img.addEventListener("click", () => openLightbox(index));
+    });
+
+    // Close lightbox
+    closeBtn.addEventListener("click", closeLightbox);
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    // Navigation buttons
+    prevBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      showPrev();
+    });
+    nextBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      showNext();
+    });
+
+    // Keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      if (lightbox.style.display === "flex") {
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowLeft") showPrev();
+        if (e.key === "ArrowRight") showNext();
+      }
+    });
+  </script>
+</html>

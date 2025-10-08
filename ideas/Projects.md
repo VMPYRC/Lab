@@ -4,5 +4,4 @@ Projects that sound fun to do / try out.
 
 ## HTML / CSS / JAVASCRIPT
 
-- Random Quote Generator
-- Interactive Image Gallery
+- Random Quote / Lyric Generator
